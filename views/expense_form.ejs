@@ -1,0 +1,66 @@
+<%- include('partials/header') %>
+
+<div class="container mt-4">
+  <h3>บันทึกรายจ่าย</h3>
+
+  <form action="/expense" method="POST">
+    <div class="mb-3">
+      <label class="form-label">ใช้เงินทำอะไร</label>
+      <input type="text" name="title" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">จำนวนเงิน</label>
+      <input type="number" name="amount" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">หมวดหมู่</label>
+      <div class="d-flex gap-2">
+        <select name="category" class="form-select" required>
+          <% categories.forEach(cat => { %>
+            <option value="<%= cat._id %>"><%= cat.name %></option>
+          <% }) %>
+        </select>
+
+        <button type="button"
+                class="btn btn-outline-secondary"
+                data-bs-toggle="modal"
+                data-bs-target="#categoryModal">
+          +
+        </button>
+      </div>
+    </div>
+
+    <button class="btn btn-success">บันทึก</button>
+    <a href="/" class="btn btn-secondary">ยกเลิก</a>
+  </form>
+</div>
+
+
+<div class="modal fade" id="categoryModal" tabindex="-1">
+  <div class="modal-dialog modal-md modal-dialog-centered">
+    <div class="modal-content">
+      <form action="/category" method="POST">
+        <div class="modal-header">
+          <h5 class="modal-title">เพิ่มหมวดหมู่</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <div class="modal-body">
+          <input type="text"
+                 name="name"
+                 class="form-control"
+                 placeholder="ชื่อหมวดหมู่"
+                 required>
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-primary">บันทึก</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<%- include('partials/footer') %>

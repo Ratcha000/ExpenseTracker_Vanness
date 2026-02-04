@@ -1,0 +1,103 @@
+<%- include('partials/header') %>
+
+    <div class="container mt-4">
+        <h2>Dashboard รายจ่าย</h2>
+
+        
+        <form method="GET" action="/dashboard" class="row g-3 mb-4">
+            <div class="col-md-4">
+                <label>วันที่เริ่มต้น</label>
+                <input type="date" name="start" class="form-control" value="<%= query.start || '' %>">
+            </div>
+
+            <div class="col-md-4">
+                <label>วันที่สิ้นสุด</label>
+                <input type="date" name="end" class="form-control" value="<%= query.end || '' %>">
+            </div>
+
+            
+            <input type="hidden" name="sort" value="<%= query.sort || 'date_desc' %>">
+
+            <div class="col-md-4 d-flex align-items-end">
+                <button class="btn btn-primary w-100">ค้นหา</button>
+            </div>
+        </form>
+
+        
+        <div class="mb-4">
+            <strong>เรียงตาม:</strong><br>
+
+            <div class="form-check">
+                <input class="form-check-input sort-radio" type="radio" value="date_desc" <%=!query.sort ||
+                    query.sort==='date_desc' ? 'checked' : '' %>>
+                <label class="form-check-label">วันที่ล่าสุด</label>
+            </div>
+
+            <div class="form-check">
+                <input class="form-check-input sort-radio" type="radio" value="date_asc" <%=query.sort==='date_asc'
+                    ? 'checked' : '' %>>
+                <label class="form-check-label">วันที่เก่าสุด</label>
+            </div>
+
+            <div class="form-check">
+                <input class="form-check-input sort-radio" type="radio" value="amount_desc"
+                    <%=query.sort==='amount_desc' ? 'checked' : '' %>>
+                <label class="form-check-label">จำนวนเงินมาก → น้อย</label>
+            </div>
+
+            <div class="form-check">
+                <input class="form-check-input sort-radio" type="radio" value="amount_asc" <%=query.sort==='amount_asc'
+                    ? 'checked' : '' %>>
+                <label class="form-check-label">จำนวนเงินน้อย → มาก</label>
+            </div>
+        </div>
+
+        
+        <div class="alert alert-info">
+            <strong>ยอดรวม:</strong>
+            <%= totalAmount.toLocaleString() %> บาท
+        </div>
+
+       
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>วันที่</th>
+                    <th>รายการ</th>
+                    <th>หมวดหมู่</th>
+                    <th>จำนวนเงิน</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% expenses.forEach(e=> { %>
+                    <tr>
+                        <td>
+                            <%= e.createdAt.toLocaleString('th-TH', { year: 'numeric' , month: '2-digit' ,
+                                day: '2-digit' , hour: '2-digit' , minute: '2-digit' , second: '2-digit' }) %>
+                        </td>
+                        <td>
+                            <%= e.title %>
+                        </td>
+                        <td>
+                            <%= e.category ? e.category.name : '-' %>
+                        </td>
+                        <td>
+                            <%= e.amount %>
+                        </td>
+                    </tr>
+                    <% }) %>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        document.querySelectorAll('.sort-radio').forEach(radio => {
+            radio.addEventListener('change', () => {
+                const params = new URLSearchParams(window.location.search);
+                params.set('sort', radio.value);
+                window.location.search = params.toString();
+            });
+        });
+    </script>
+
+    <%- include('partials/footer') %>

@@ -1,0 +1,46 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand" href="/">Expense Tracker</a>
+
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a
+            class="nav-link <%= currentPath === '/' ? 'active' : '' %>"
+            href="/"
+          >
+            รายการค่าใช้จ่าย
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a
+            class="nav-link <%= currentPath === '/expense/new' ? 'active' : '' %>"
+            href="/expense/new"
+          >
+            บันทึกรายรับ/รายจ่าย
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a
+            class="nav-link <%= currentPath === '/dashboard' ? 'active' : '' %>"
+            href="/dashboard"
+          >
+            Dashboard
+          </a>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>

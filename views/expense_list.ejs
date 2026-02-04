@@ -1,0 +1,93 @@
+<%- include('partials/header') %>
+
+<div class="container mt-5">
+
+  <% if (success) { %>
+    <div class="alert alert-success text-center shadow-sm">
+      ✅ บันทึกข้อมูลสำเร็จ
+    </div>
+
+    <script>
+      setTimeout(() => {
+        document.querySelector('.alert')?.remove();
+      }, 2500);
+    </script>
+  <% } %>
+
+  <!-- Header -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h3 class="fw-bold">📋 รายการค่าใช้จ่าย</h3>
+    <a href="/expense/new" class="btn btn-primary shadow-sm">
+      ➕ บันทึกรายรับ / รายจ่าย
+    </a>
+  </div>
+
+  <!-- Table -->
+  <div class="card shadow-sm">
+    <div class="card-body p-0">
+      <table class="table table-hover table-bordered mb-0 align-middle text-center">
+        <thead class="table-dark">
+          <tr>
+            <th style="width:60px">#</th>
+            <th class="text-start">รายการ</th>
+            <th>จำนวน (บาท)</th>
+            <th>หมวดหมู่</th>
+            <th>วันที่</th>
+            <th>เวลา</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% expenses.forEach((e, index) => { %>
+            <tr>
+              <!-- ลำดับ -->
+              <td class="fw-bold"><%= index + 1 %></td>
+
+              <!-- รายการ -->
+              <td class="text-start"><%= e.title %></td>
+
+              <!-- จำนวนเงิน -->
+              <td class="fw-bold text-danger">
+                <%= e.amount.toLocaleString() %>
+              </td>
+
+              <!-- หมวดหมู่ -->
+              <td>
+                <% if (e.category) { %>
+                  <span class="badge bg-info text-dark">
+                    <%= e.category.name %>
+                  </span>
+                <% } else { %>
+                  <span class="badge bg-secondary">ไม่ระบุ</span>
+                <% } %>
+              </td>
+
+              <!-- วันที่ -->
+              <td>
+                <%= new Date(e.createdAt).toLocaleDateString('th-TH') %>
+              </td>
+
+              <!-- เวลา -->
+              <td>
+                <%= new Date(e.createdAt).toLocaleTimeString('th-TH', {
+                  hour: '2-digit',
+                  minute: '2-digit'
+                }) %>
+              </td>
+            </tr>
+          <% }) %>
+
+          <% if (expenses.length === 0) { %>
+            <tr>
+              <td colspan="6" class="text-muted py-4">
+                ไม่มีข้อมูลค่าใช้จ่าย
+              </td>
+            </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<%- include('partials/footer') %>
