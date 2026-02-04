@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 const Expense = require('../models/Expense');
 
+router.get('/', (req, res) => {
+  res.redirect('/dashboard');
+});
 
 router.get('/dashboard', async (req, res) => {
   const { start, end, sort } = req.query;
@@ -10,18 +13,21 @@ router.get('/dashboard', async (req, res) => {
   let sortOption = { createdAt: -1 }; 
 
   
-  if (start && end) {
+  if (start || end) {
+  filter.createdAt = {};
+
+  if (start) {
     const startDate = new Date(start);
     startDate.setHours(0, 0, 0, 0);
+    filter.createdAt.$gte = startDate;
+  }
 
+  if (end) {
     const endDate = new Date(end);
     endDate.setHours(23, 59, 59, 999);
-
-    filter.createdAt = {
-      $gte: startDate,
-      $lte: endDate
-    };
+    filter.createdAt.$lte = endDate;
   }
+}
 
  
   if (sort === 'date_asc') sortOption = { createdAt: 1 };

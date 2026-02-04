@@ -3,6 +3,26 @@
 <div class="container mt-4">
   <h3>บันทึกรายจ่าย</h3>
 
+    <% if (typeof query !== 'undefined') { %>
+  <% if (query.msg === 'success') { %>
+    <div class="alert alert-success">
+       เพิ่มหมวดหมู่เรียบร้อยแล้ว
+    </div>
+  <% } %>
+
+  <% if (query.msg === 'exists') { %>
+    <div class="alert alert-warning">
+       มีหมวดหมู่นี้อยู่แล้ว
+    </div>
+  <% } %>
+
+  <% if (query.msg === 'empty') { %>
+    <div class="alert alert-danger">
+       กรุณากรอกชื่อหมวดหมู่
+    </div>
+  <% } %>
+<% } %>
+
   <form action="/expense" method="POST">
     <div class="mb-3">
       <label class="form-label">ใช้เงินทำอะไร</label>
@@ -18,16 +38,19 @@
       <label class="form-label">หมวดหมู่</label>
       <div class="d-flex gap-2">
         <select name="category" class="form-select" required>
+            <option value="" disabled selected>
+                --กรุณาเลือกหมวดหมู่--
+            </option>
           <% categories.forEach(cat => { %>
             <option value="<%= cat._id %>"><%= cat.name %></option>
           <% }) %>
         </select>
 
         <button type="button"
-                class="btn btn-outline-secondary"
-                data-bs-toggle="modal"
-                data-bs-target="#categoryModal">
-          +
+            class="btn btn-success"
+            data-bs-toggle="modal"
+            data-bs-target="#categoryModal">
+             + เพิ่ม
         </button>
       </div>
     </div>
