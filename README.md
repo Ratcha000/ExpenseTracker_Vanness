@@ -34,11 +34,11 @@ Vanness_Expense/
 │── .env                  # (ไม่ push ขึ้น GitHub)
 │── .gitignore
 │
-├── models/               # โครงสร้างข้อมูล (Schema)
+├── models/              
 │   ├── Expense.js
 │   └── Category.js
 │
-├── routes/               # Router / API
+├── routes/               
 │   ├── expenseRoutes.js
 │   └── dashboardRoutes.js
 │
